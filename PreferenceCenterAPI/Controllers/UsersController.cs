@@ -60,16 +60,22 @@ namespace PreferenceCenterAPI.Controllers
         }
 
 
-        [HttpDelete("{id}")]
-        public void Delete(Guid id)
+        [HttpDelete("{id:guid}")]
+        public IActionResult Delete(Guid id)
         {
-            _userService.Delete(id);
+            if (_userService.Delete(id))
+                return Ok();
+            else
+                return NoContent();
         }
 
         [HttpDelete("{email}")]
-        public void Delete(string email)
+        public IActionResult Delete(string email)
         {
-            _userService.Delete(email);
+            if (_userService.Delete(email))
+                return Ok();
+            else
+                return NoContent();
         }
     }
 }

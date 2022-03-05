@@ -61,5 +61,33 @@ namespace PreferenceCenterTests
             UserService userService = new UserService();
             Assert.Throws<FormatException>(() => userService.Add(email), "Email is wrong formated.");
         }
+
+
+        [Test]
+        public void DeleteExistingUser_ShouldReturnTrue()
+        {
+            string email = "pierre.tombal@joke.net";
+
+            UserService userService = new UserService();
+            userService.Add(email);
+
+            var isDeleted = userService.Delete(email);
+
+            Assert.True(isDeleted);
+        }
+
+        [Test]
+        public void DeleteUnexistingUser_ShouldReturnFalse()
+        {
+            string email = "pierre.tombal@joke.net";
+            string unexistEmail = "dark.vador@death.star";
+
+            UserService userService = new UserService();
+            userService.Add(email);
+
+            var isDeleted = userService.Delete(unexistEmail);
+
+            Assert.False(isDeleted);
+        }
     }
 }

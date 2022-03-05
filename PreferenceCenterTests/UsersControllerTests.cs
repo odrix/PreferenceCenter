@@ -34,7 +34,17 @@ namespace PreferenceCenterTests
         }
 
         [Test]
-        public void CreateAlredayExistUser_ShouldThrowArgumentExcpetion()
+        public void GetUnexistingId_ShouldResponseNotFound()
+        {
+            UsersController userCtrl = new UsersController(new UserService());
+
+            var response = userCtrl.Get(Guid.NewGuid());
+
+            Assert.IsInstanceOf<NotFoundResult>(response);
+        }
+
+        [Test]
+        public void CreateAlredayExistUser_ShouldResponseBadRequest()
         {
             string email = "pierre.tombal@joke.net";
 
@@ -46,7 +56,7 @@ namespace PreferenceCenterTests
         }
 
         [Test]
-        public void CreateUserWithBadEmail_ShouldThrowArgumentExcpetion()
+        public void CreateUserWithBadEmail_ShouldResponseBadRequest()
         {
             string email = "pierre.tombal";
 
@@ -54,6 +64,32 @@ namespace PreferenceCenterTests
             var response = usersCtrl.Post(email);
 
             Assert.IsInstanceOf<BadRequestObjectResult>(response);
+        }
+
+        [Test]
+        public void DeleteExistingUser_ShouldResponseOk()
+        {
+            string email = "pierre.tombal@joke.net";
+
+            UsersController userCtrl = new UsersController(new UserService());
+            userCtrl.Post(email);
+
+            var response = userCtrl.Delete(email);
+
+            Assert.IsInstanceOf<OkResult>(response);
+        }
+
+        [Test]
+        public void DeleteUnexistingUser_ShouldResponseNoContent()
+        {
+            string email = "pierre.tombal@joke.net";
+
+            UsersController userCtrl = new UsersController(new UserService());
+            userCtrl.Post(email);
+
+            var response = userCtrl.Delete(Guid.NewGuid());
+
+            Assert.IsInstanceOf<NoContentResult>(response);
         }
     }
 }

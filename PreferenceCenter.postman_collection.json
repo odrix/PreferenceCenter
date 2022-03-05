@@ -1,0 +1,140 @@
+{
+	"info": {
+		"_postman_id": "4a506258-39f1-41b0-8973-c534159c70e8",
+		"name": "PreferenceCenter",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Your test name\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.collectionVariables.set(\"lastUserIdCreated\", jsonData.id);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\"bob.morane@aventurier.com\"",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/Users/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"Users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user by email",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/users/bob.morane@aventurier.com",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"bob.morane@aventurier.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/users/{{lastUserIdCreated}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{lastUserIdCreated}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user by id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/users/{{lastUserIdCreated}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{lastUserIdCreated}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "https://localhost:7263",
+			"type": "default"
+		},
+		{
+			"key": "lastUserIdCreated",
+			"value": "",
+			"type": "default"
+		}
+	]
+}

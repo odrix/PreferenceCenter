@@ -46,14 +46,14 @@ namespace PreferenceCenterAPI.Services
             return emailValidator.IsMatch(email);
         }
 
-        public void Delete(Guid id)
+        public bool Delete(Guid id)
         {
-            _users.RemoveAll(x => x.Id == id);
+            return _users.RemoveAll(x => x.Id == id) == 1;
         }
 
-        public void Delete(string email)
+        public bool Delete(string email)
         {
-            _users.RemoveAll(x => x.Email == email);
+           return _users.RemoveAll(x => x.Email == email) == 1;
         }
     }
 }

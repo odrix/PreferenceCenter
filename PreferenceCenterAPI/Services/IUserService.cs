@@ -5,8 +5,8 @@ namespace PreferenceCenterAPI.Services
     public interface IUserService
     {
         UserPreference Add(string email);
-        void Delete(Guid id);
-        void Delete(string email);
+        bool Delete(Guid id);
+        bool Delete(string email);
         UserPreference Get(Guid id);
         UserPreference Get(string email);
     }
