@@ -3,10 +3,10 @@ namespace PreferenceCenterAPI.Domain
 {
     public interface IUserProvider
     {
-        void Add(UserPreference newUser);
-        int Delete(Guid id);
-        int Delete(string email);
-        UserPreference Get(Guid id);
-        UserPreference Get(string email);
+        void AddUser(UserPreference newUser);
+        int DeleteUser(Guid id);
+        int DeleteUser(string email);
+        UserPreference GetUser(Guid id);
+        UserPreference GetUser(string email);
     }
 }

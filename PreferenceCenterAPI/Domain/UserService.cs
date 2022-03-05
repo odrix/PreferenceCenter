@@ -11,9 +11,23 @@ namespace PreferenceCenterAPI.Domain
             _userProvider = userProvider;
         }
 
-        public UserPreference Get(Guid id) => _userProvider.Get(id);
+        public UserPreference Get(Guid id)
+        {
+            var user = _userProvider.GetUser(id);
+            if(user == null)
+                return null;
+            user.Consents.Sort(new ConsentKeyComparer(desc: true));
+            return user;
+        }
 
-        public UserPreference Get(string email) => _userProvider.Get(email);    
+        public UserPreference Get(string email)
+        {
+            var user = _userProvider.GetUser(email);
+            if (user == null)
+                return null;
+            user.Consents.Sort(new ConsentKeyComparer(desc: true));
+            return user;
+        }
 
         public UserPreference Add(string email)
         {
@@ -29,7 +43,7 @@ namespace PreferenceCenterAPI.Domain
                 Email = email,
             };
 
-            _userProvider.Add(newUser);
+            _userProvider.AddUser(newUser);
 
             return newUser;
         }
@@ -42,12 +56,12 @@ namespace PreferenceCenterAPI.Domain
 
         public bool Delete(Guid id)
         {
-            return _userProvider.Delete(id) == 1;
+            return _userProvider.DeleteUser(id) == 1;
         }
 
         public bool Delete(string email)
         {
-           return _userProvider.Delete(email) == 1;
+           return _userProvider.DeleteUser(email) == 1;
         }
     }
 }

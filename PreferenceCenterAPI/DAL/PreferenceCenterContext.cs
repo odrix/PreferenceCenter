@@ -16,6 +16,8 @@ namespace PreferenceCenterAPI.DAL
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            modelBuilder.Entity<UserPreference>().HasMany<Consent>(u=> u.Consents).WithRequired().HasForeignKey(c => c.UserId);  
+
         }
     }
 }
