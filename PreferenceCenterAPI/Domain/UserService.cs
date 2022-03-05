@@ -32,7 +32,7 @@ namespace PreferenceCenterAPI.Domain
         public UserPreference Add(string email)
         {
             if(!IsEmailValid(email))
-                throw new FormatException("Email is wrong formated.");
+                throw new ArgumentException("Email is wrong formated.", nameof(email));
 
             if (Get(email) != null)
                 throw new ArgumentException("email already exist.", nameof(email));

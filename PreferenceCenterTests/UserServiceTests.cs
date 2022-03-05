@@ -59,7 +59,7 @@ namespace PreferenceCenterTests
             string email = "pierre.tombal";
 
             UserService userService = new UserService(new InMemoryContext());
-            Assert.Throws<FormatException>(() => userService.Add(email), "Email is wrong formated.");
+            Assert.Throws<ArgumentException>(() => userService.Add(email), "Email is wrong formated.");
         }
 
 

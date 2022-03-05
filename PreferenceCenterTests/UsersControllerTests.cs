@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using NUnit.Framework;
 using PreferenceCenterAPI.Controllers;
 using PreferenceCenterAPI.Domain;
@@ -48,7 +49,8 @@ namespace PreferenceCenterTests
             usersCtrl.Post(email);
             var response = usersCtrl.Post(email);
 
-            Assert.IsInstanceOf<BadRequestObjectResult>(response);
+            Assert.IsInstanceOf<IStatusCodeActionResult>(response);
+            Assert.AreEqual(422, (response as IStatusCodeActionResult).StatusCode);
         }
 
         [Test]
@@ -59,7 +61,8 @@ namespace PreferenceCenterTests
             UsersController usersCtrl = InitUserController();
             var response = usersCtrl.Post(email);
 
-            Assert.IsInstanceOf<BadRequestObjectResult>(response);
+            Assert.IsInstanceOf<IStatusCodeActionResult>(response);
+            Assert.AreEqual(422, (response as IStatusCodeActionResult).StatusCode); 
         }
 
         [Test]

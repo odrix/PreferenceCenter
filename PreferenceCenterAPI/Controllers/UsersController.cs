@@ -52,9 +52,9 @@ namespace PreferenceCenterAPI.Controllers
                 UserPreference createdUser = _userService.Add(email);
                 return StatusCode((int)HttpStatusCode.Created, createdUser);
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode((int)HttpStatusCode.UnprocessableEntity, ex.Message);
             }
         }
 
