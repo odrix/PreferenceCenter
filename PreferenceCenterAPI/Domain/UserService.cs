@@ -52,12 +52,12 @@ namespace PreferenceCenterAPI.Domain
 
         public bool Delete(Guid id)
         {
-            return _userProvider.DeleteUser(id) == 1;
+            return _userProvider.DeleteUser(id) > 0;
         }
 
         public bool Delete(string email)
         {
-            return _userProvider.DeleteUser(email) == 1;
+            return _userProvider.DeleteUser(email) > 0;
         }
 
         private bool IsEmailValid(string email)
