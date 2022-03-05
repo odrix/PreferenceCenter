@@ -118,7 +118,7 @@ namespace PreferenceCenterTests
         }
 
         [Test]
-        public void GetUserWithOnlyEmailNotificationConsents_ShouldReturnOnlyLastConsentValue()
+        public void GetUserWithOnlyEmailNotificationConsents_ShouldReturnOnlyLastConsentsValue()
         {
             string email = "pierre.tombal@joke.net";
             var inMemoryContext = new InMemoryContext();
@@ -135,9 +135,11 @@ namespace PreferenceCenterTests
             var user = userService.Get(email);
 
             Assert.IsNotNull(user.Consents);
-            Assert.AreEqual(1, user.Consents.Count);
-            Assert.AreEqual(EnumConsent.email_notifications, user.Consents.First().Id);
-            Assert.False(user.Consents.First().Enabled);
+            Assert.AreEqual(2, user.Consents.Count);
+            Assert.AreEqual(EnumConsent.email_notifications, user.Consents[0].Id);
+            Assert.False(user.Consents[0].Enabled);
+            Assert.AreEqual(EnumConsent.sms_notifications, user.Consents[1].Id);
+            Assert.False(user.Consents[1].Enabled);
         }
     }
 }

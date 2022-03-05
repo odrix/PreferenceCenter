@@ -73,9 +73,14 @@ namespace PreferenceCenterAPI.Domain
 
             if (tmpConsents.Any(x => x.Id == EnumConsent.email_notifications))
                 user.Consents.Add(tmpConsents.Where(x => x.Id == EnumConsent.email_notifications).OrderByDescending(x => x.Key).First());
+            else
+                user.Consents.Add(new Consent() { Id = EnumConsent.email_notifications, Enabled = false });
+
 
             if (tmpConsents.Any(x => x.Id == EnumConsent.sms_notifications))
                 user.Consents.Add(tmpConsents.Where(x => x.Id == EnumConsent.sms_notifications).OrderByDescending(x => x.Key).First());
+            else
+                user.Consents.Add(new Consent() { Id = EnumConsent.sms_notifications, Enabled = false });
         }
     }
 }
