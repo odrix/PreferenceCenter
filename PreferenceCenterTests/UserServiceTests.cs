@@ -91,7 +91,7 @@ namespace PreferenceCenterTests
         }
 
         [Test]
-        public void GetUser_ShouldConsentLastInFirst()
+        public void GetUser_ShouldReturnOnlyLastConsentsValue()
         {
             string email = "pierre.tombal@joke.net";
             var inMemoryContext = new InMemoryContext();
@@ -100,14 +100,21 @@ namespace PreferenceCenterTests
             inMemoryContext.AddEvents(new Consent[1] { new Consent { UserId=userId, Id = EnumConsent.email_notifications, Enabled = true } });
             inMemoryContext.AddEvents(new Consent[1] { new Consent { UserId=userId, Id = EnumConsent.sms_notifications, Enabled = true } });
             inMemoryContext.AddEvents(new Consent[1] { new Consent { UserId=userId, Id = EnumConsent.email_notifications, Enabled = false } });
+            inMemoryContext.AddEvents(new Consent[1] { new Consent { UserId=userId, Id = EnumConsent.email_notifications, Enabled = true } });
+            inMemoryContext.AddEvents(new Consent[1] { new Consent { UserId=userId, Id = EnumConsent.sms_notifications, Enabled = true } });
+            inMemoryContext.AddEvents(new Consent[1] { new Consent { UserId=userId, Id = EnumConsent.email_notifications, Enabled = false } });
+            inMemoryContext.AddEvents(new Consent[1] { new Consent { UserId=userId, Id = EnumConsent.email_notifications, Enabled = true } });
+            inMemoryContext.AddEvents(new Consent[1] { new Consent { UserId=userId, Id = EnumConsent.email_notifications, Enabled = false } });
 
             UserService userService = new UserService(inMemoryContext);
             var user = userService.Get(email);
 
             Assert.IsNotNull(user.Consents);
-            Assert.Greater(user.Consents.Count, 0);
+            Assert.AreEqual(2, user.Consents.Count);
             Assert.AreEqual(EnumConsent.email_notifications, user.Consents[0].Id);  
             Assert.False(user.Consents[0].Enabled);
+            Assert.AreEqual(EnumConsent.sms_notifications, user.Consents[1].Id);
+            Assert.True(user.Consents[1].Enabled);
         }
     }
 }

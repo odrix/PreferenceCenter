@@ -14,9 +14,10 @@ namespace PreferenceCenterAPI.Domain
         public UserPreference Get(Guid id)
         {
             var user = _userProvider.GetUser(id);
-            if(user == null)
+            if (user == null)
                 return null;
-            user.Consents.Sort(new ConsentKeyComparer(desc: true));
+
+            KeepOnlyLastEvents(user);
             return user;
         }
 
@@ -25,13 +26,14 @@ namespace PreferenceCenterAPI.Domain
             var user = _userProvider.GetUser(email);
             if (user == null)
                 return null;
-            user.Consents.Sort(new ConsentKeyComparer(desc: true));
+
+            KeepOnlyLastEvents(user);
             return user;
         }
 
         public UserPreference Add(string email)
         {
-            if(!IsEmailValid(email))
+            if (!IsEmailValid(email))
                 throw new ArgumentException("Email is wrong formated.", nameof(email));
 
             if (Get(email) != null)
@@ -48,12 +50,6 @@ namespace PreferenceCenterAPI.Domain
             return newUser;
         }
 
-        private bool IsEmailValid(string email)
-        {
-            var emailValidator = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-            return emailValidator.IsMatch(email);
-        }
-
         public bool Delete(Guid id)
         {
             return _userProvider.DeleteUser(id) == 1;
@@ -61,7 +57,25 @@ namespace PreferenceCenterAPI.Domain
 
         public bool Delete(string email)
         {
-           return _userProvider.DeleteUser(email) == 1;
+            return _userProvider.DeleteUser(email) == 1;
+        }
+
+        private bool IsEmailValid(string email)
+        {
+            var emailValidator = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            return emailValidator.IsMatch(email);
+        }
+
+        private void KeepOnlyLastEvents(UserPreference user)
+        {
+            var tmpConsents = user.Consents;
+            user.Consents = new List<Consent>();
+
+            if (tmpConsents.Any(x => x.Id == EnumConsent.email_notifications))
+                user.Consents.Add(tmpConsents.Where(x => x.Id == EnumConsent.email_notifications).OrderByDescending(x => x.Key).First());
+
+            if (tmpConsents.Any(x => x.Id == EnumConsent.sms_notifications))
+                user.Consents.Add(tmpConsents.Where(x => x.Id == EnumConsent.sms_notifications).OrderByDescending(x => x.Key).First());
         }
     }
 }
