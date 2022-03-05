@@ -1,11 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace PreferenceCenterAPI.Domain
 {
     public class Consent
     {
-        public long Id { get; set; }
-        public  string Name { get; set; }
+        [Key]
+        public long Key { get; set; }
+
+        [EnumDataType(typeof(EnumConsent))]
+        public  EnumConsent Id { get; set; }
+
         public bool Enabled { get; set; }
     }
 }
