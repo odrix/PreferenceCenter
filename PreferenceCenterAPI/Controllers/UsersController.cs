@@ -17,12 +17,6 @@ namespace PreferenceCenterAPI.Controllers
             _userService = userService;
         }
 
-        // GET: api/<Users>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
 
         [HttpGet("{id:guid}")]
         public IActionResult Get(Guid id)

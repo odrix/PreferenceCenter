@@ -1,13 +1,13 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace PreferenceCenterAPI.Domain
 {
     public class Consent
     {
         [Key]
+        [JsonIgnore]
         public long Key { get; set; }
 
 
@@ -16,6 +16,7 @@ namespace PreferenceCenterAPI.Domain
 
         public bool Enabled { get; set; }
 
+        [JsonIgnore]
         public Guid UserId { get; set; }
 
     }
