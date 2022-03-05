@@ -8,7 +8,7 @@ namespace PreferenceCenterAPI.Controllers
     [ApiController]
     public class EventsController : ControllerBase
     {
-        IEventService _eventService;
+        readonly IEventService _eventService;
 
         public EventsController(IEventService eventService)
         {
@@ -18,9 +18,15 @@ namespace PreferenceCenterAPI.Controllers
         [HttpPost]
         public IActionResult Post(EventsPostRequest newEvents)
         {
-            _eventService.AddEvents(newEvents.User.Id, newEvents.Consents);
-
-            return Ok();
+            try
+            {
+                _eventService.AddEvents(newEvents.User.Id, newEvents.Consents);
+                return Ok();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

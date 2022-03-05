@@ -2,7 +2,7 @@
 {
     public class ConsentKeyComparer : IComparer<Consent>
     {
-        private bool _desc;
+        private readonly bool _desc;
 
         public ConsentKeyComparer(bool desc = false)
         {

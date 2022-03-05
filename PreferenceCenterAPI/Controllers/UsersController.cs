@@ -10,7 +10,7 @@ namespace PreferenceCenterAPI.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        IUserService _userService;
+        readonly IUserService _userService;
 
         public UsersController(IUserService userService)
         {

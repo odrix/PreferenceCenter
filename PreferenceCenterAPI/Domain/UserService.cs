@@ -4,7 +4,7 @@ namespace PreferenceCenterAPI.Domain
 {
     public class UserService : IUserService
     {
-        IUserProvider _userProvider;
+        readonly IUserProvider _userProvider;
 
         public UserService(IUserProvider userProvider)
         {
