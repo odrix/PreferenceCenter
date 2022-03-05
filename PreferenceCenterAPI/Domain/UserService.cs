@@ -68,19 +68,11 @@ namespace PreferenceCenterAPI.Domain
 
         private void KeepOnlyLastEvents(UserPreference user)
         {
-            var tmpConsents = user.Consents;
-            user.Consents = new List<Consent>();
+            var emailConsent = _userProvider.GetLastConsentOf(user.Id, EnumConsent.email_notifications);
+            user.Consents.Add(new Consent() { Id = EnumConsent.email_notifications, Enabled = emailConsent});
 
-            if (tmpConsents.Any(x => x.Id == EnumConsent.email_notifications))
-                user.Consents.Add(tmpConsents.Where(x => x.Id == EnumConsent.email_notifications).OrderByDescending(x => x.Key).First());
-            else
-                user.Consents.Add(new Consent() { Id = EnumConsent.email_notifications, Enabled = false });
-
-
-            if (tmpConsents.Any(x => x.Id == EnumConsent.sms_notifications))
-                user.Consents.Add(tmpConsents.Where(x => x.Id == EnumConsent.sms_notifications).OrderByDescending(x => x.Key).First());
-            else
-                user.Consents.Add(new Consent() { Id = EnumConsent.sms_notifications, Enabled = false });
+            var smsConsent = _userProvider.GetLastConsentOf(user.Id, EnumConsent.sms_notifications);
+            user.Consents.Add(new Consent() { Id = EnumConsent.sms_notifications, Enabled = smsConsent });
         }
     }
 }

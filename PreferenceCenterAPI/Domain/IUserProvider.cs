@@ -8,5 +8,7 @@ namespace PreferenceCenterAPI.Domain
         int DeleteUser(string email);
         UserPreference GetUser(Guid id);
         UserPreference GetUser(string email);
+
+        bool GetLastConsentOf(Guid userId, EnumConsent consent);
     }
 }

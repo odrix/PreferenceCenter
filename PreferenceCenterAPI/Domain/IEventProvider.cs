@@ -2,7 +2,7 @@
 {
     public interface IEventProvider
     {
-        int AddEvents(Consent[] consents);
+        int AddEvents(Guid userId, Consent[] consents);
         bool CheckUserExist(Guid id);
     }
 }

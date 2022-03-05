@@ -1,4 +1,5 @@
-﻿using PreferenceCenterAPI.Domain;
+﻿using NUnit.Framework.Internal.Execution;
+using PreferenceCenterAPI.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,17 +11,18 @@ namespace PreferenceCenterTests
     internal class InMemoryContext : IUserProvider, IEventProvider
     {
         List<UserPreference> _users = new List<UserPreference>();
+        List<PreferenceCenterAPI.DAL.Event> _events = new List<PreferenceCenterAPI.DAL.Event>();
 
-        public int AddEvents(Consent[] consents)
+        public int AddEvents(Guid userId, Consent[] events)
         {
-            foreach (var consent in consents)
+            _events.AddRange(events.Select(c => new PreferenceCenterAPI.DAL.Event()
             {
-                var u = GetUser(consent.UserId);
-                consent.Key = u.Consents.Count + 1;
-                u.Consents.Add(consent);
-            }
-
-            return consents.Length;
+                Created = DateTime.Now,
+                Enabled = c.Enabled,
+                Id = c.Id,
+                UserId = userId,
+            }));
+            return events.Length;
         }
 
         public void AddUser(UserPreference newUser) => _users.Add(newUser);
@@ -30,6 +32,14 @@ namespace PreferenceCenterTests
         public int DeleteUser(Guid id) => _users.RemoveAll(u => u.Id == id);
 
         public int DeleteUser(string email) => _users.RemoveAll(u =>u.Email == email);
+
+        public bool GetLastConsentOf(Guid userId, EnumConsent consent)
+        {
+            return (from x in _events
+                    where x.UserId == userId && x.Id == consent
+                    orderby x.Created descending
+                    select x.Enabled).FirstOrDefault();
+        }
 
         public UserPreference GetUser(Guid id) => _users.SingleOrDefault(u => u.Id == id);
 

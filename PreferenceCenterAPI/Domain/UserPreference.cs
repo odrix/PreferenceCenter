@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PreferenceCenterAPI.Domain
 {
@@ -14,6 +15,7 @@ namespace PreferenceCenterAPI.Domain
         [EmailAddress, Required]
         public string Email { get; set; }
 
+        [NotMapped]
         public List<Consent> Consents { get; set; }
     }
 }

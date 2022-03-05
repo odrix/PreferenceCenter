@@ -6,13 +6,9 @@ namespace PreferenceCenterAPI.DAL
     {
         PreferenceCenterContext ctx = new PreferenceCenterContext();
 
-        public UserPreference GetUser(Guid id) => ctx.Users
-                                                        .Include("Consents")
-                                                        .SingleOrDefault(u => u.Id == id);
+        public UserPreference GetUser(Guid id) => ctx.Users.SingleOrDefault(u => u.Id == id);
 
-        public UserPreference GetUser(string email) => ctx.Users
-                                                        .Include("Consents")
-                                                        .SingleOrDefault(u => u.Email == email);
+        public UserPreference GetUser(string email) => ctx.Users.SingleOrDefault(u => u.Email == email);
 
         public void AddUser(UserPreference newUser)
         {
@@ -29,15 +25,29 @@ namespace PreferenceCenterAPI.DAL
 
         public int DeleteUser(string email)
         {
-            var user = GetUser(email);
+            var user = GetUser(email); 
             ctx.Users.Remove(user);
             return ctx.SaveChanges();
         }
 
-        public int AddEvents(Consent[] consents)
+        public int AddEvents(Guid userId, Consent[] consents)
         {
-            ctx.Consents.AddRange(consents);
+            ctx.Events.AddRange(consents.Select(c => new Event()
+            {
+                Created = DateTime.Now,
+                Enabled = c.Enabled,
+                Id = c.Id,
+                UserId = userId,
+            }));
             return ctx.SaveChanges();
+        }
+
+        public bool GetLastConsentOf(Guid userId, EnumConsent consent)
+        {
+            return (from x in ctx.Events
+                    where x.UserId == userId && x.Id == consent
+                    orderby x.Created descending
+                    select x.Enabled).FirstOrDefault();
         }
 
         public bool CheckUserExist(Guid id) => ctx.Users.Any(x => x.Id == id);

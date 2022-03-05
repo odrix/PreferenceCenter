@@ -17,9 +17,7 @@
             if(!_eventProvider.CheckUserExist(userId))
                 throw new ArgumentException(nameof(userId));
 
-            foreach (var consent in consents)
-                consent.UserId = userId;
-            _eventProvider.AddEvents(consents);
+            _eventProvider.AddEvents(userId, consents);
         }
     }
 }

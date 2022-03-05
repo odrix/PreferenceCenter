@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using PreferenceCenterAPI.DAL;
 using PreferenceCenterAPI.Domain;
 using System;
 using System.Collections.Generic;
@@ -19,10 +20,10 @@ namespace PreferenceCenterTests
             UserService userService = new UserService(new InMemoryContext());
             userService.Add(email);
 
-            var  user = userService.Get(email);
+            var user = userService.Get(email);
 
             Assert.IsNotNull(user);
-            Assert.AreEqual(email, user.Email); 
+            Assert.AreEqual(email, user.Email);
             Assert.AreNotEqual(Guid.Empty, user.Id);
             Assert.IsNotNull(user.Consents);
         }
@@ -95,23 +96,23 @@ namespace PreferenceCenterTests
         {
             string email = "pierre.tombal@joke.net";
             var inMemoryContext = new InMemoryContext();
-            Guid userId = Guid.NewGuid();   
-            inMemoryContext.AddUser(new UserPreference() { Id = userId, Email=email });
-            inMemoryContext.AddEvents(new Consent[1] { new Consent { UserId=userId, Id = EnumConsent.email_notifications, Enabled = true } });
-            inMemoryContext.AddEvents(new Consent[1] { new Consent { UserId=userId, Id = EnumConsent.sms_notifications, Enabled = true } });
-            inMemoryContext.AddEvents(new Consent[1] { new Consent { UserId=userId, Id = EnumConsent.email_notifications, Enabled = false } });
-            inMemoryContext.AddEvents(new Consent[1] { new Consent { UserId=userId, Id = EnumConsent.email_notifications, Enabled = true } });
-            inMemoryContext.AddEvents(new Consent[1] { new Consent { UserId=userId, Id = EnumConsent.sms_notifications, Enabled = true } });
-            inMemoryContext.AddEvents(new Consent[1] { new Consent { UserId=userId, Id = EnumConsent.email_notifications, Enabled = false } });
-            inMemoryContext.AddEvents(new Consent[1] { new Consent { UserId=userId, Id = EnumConsent.email_notifications, Enabled = true } });
-            inMemoryContext.AddEvents(new Consent[1] { new Consent { UserId=userId, Id = EnumConsent.email_notifications, Enabled = false } });
+            Guid userId = Guid.NewGuid();
+            inMemoryContext.AddUser(new UserPreference() { Id = userId, Email = email });
+            inMemoryContext.AddEvents(userId, new Consent[1] { new Consent { Id = EnumConsent.email_notifications, Enabled = true } });
+            inMemoryContext.AddEvents(userId, new Consent[1] { new Consent { Id = EnumConsent.sms_notifications, Enabled = true } });
+            inMemoryContext.AddEvents(userId, new Consent[1] { new Consent { Id = EnumConsent.email_notifications, Enabled = false } });
+            inMemoryContext.AddEvents(userId, new Consent[1] { new Consent { Id = EnumConsent.email_notifications, Enabled = true } });
+            inMemoryContext.AddEvents(userId, new Consent[1] { new Consent { Id = EnumConsent.sms_notifications, Enabled = true } });
+            inMemoryContext.AddEvents(userId, new Consent[1] { new Consent { Id = EnumConsent.email_notifications, Enabled = false } });
+            inMemoryContext.AddEvents(userId, new Consent[1] { new Consent { Id = EnumConsent.email_notifications, Enabled = true } });
+            inMemoryContext.AddEvents(userId, new Consent[1] { new Consent { Id = EnumConsent.email_notifications, Enabled = false } });
 
             UserService userService = new UserService(inMemoryContext);
             var user = userService.Get(email);
 
             Assert.IsNotNull(user.Consents);
             Assert.AreEqual(2, user.Consents.Count);
-            Assert.AreEqual(EnumConsent.email_notifications, user.Consents[0].Id);  
+            Assert.AreEqual(EnumConsent.email_notifications, user.Consents[0].Id);
             Assert.False(user.Consents[0].Enabled);
             Assert.AreEqual(EnumConsent.sms_notifications, user.Consents[1].Id);
             Assert.True(user.Consents[1].Enabled);
@@ -124,12 +125,12 @@ namespace PreferenceCenterTests
             var inMemoryContext = new InMemoryContext();
             Guid userId = Guid.NewGuid();
             inMemoryContext.AddUser(new UserPreference() { Id = userId, Email = email });
-            inMemoryContext.AddEvents(new Consent[1] { new Consent { UserId = userId, Id = EnumConsent.email_notifications, Enabled = true } });
-            inMemoryContext.AddEvents(new Consent[1] { new Consent { UserId = userId, Id = EnumConsent.email_notifications, Enabled = false } });
-            inMemoryContext.AddEvents(new Consent[1] { new Consent { UserId = userId, Id = EnumConsent.email_notifications, Enabled = true } });
-            inMemoryContext.AddEvents(new Consent[1] { new Consent { UserId = userId, Id = EnumConsent.email_notifications, Enabled = false } });
-            inMemoryContext.AddEvents(new Consent[1] { new Consent { UserId = userId, Id = EnumConsent.email_notifications, Enabled = true } });
-            inMemoryContext.AddEvents(new Consent[1] { new Consent { UserId = userId, Id = EnumConsent.email_notifications, Enabled = false } });
+            inMemoryContext.AddEvents(userId, new Consent[1] { new Consent { Id = EnumConsent.email_notifications, Enabled = true } });
+            inMemoryContext.AddEvents(userId, new Consent[1] { new Consent { Id = EnumConsent.email_notifications, Enabled = false } });
+            inMemoryContext.AddEvents(userId, new Consent[1] { new Consent { Id = EnumConsent.email_notifications, Enabled = true } });
+            inMemoryContext.AddEvents(userId, new Consent[1] { new Consent { Id = EnumConsent.email_notifications, Enabled = false } });
+            inMemoryContext.AddEvents(userId, new Consent[1] { new Consent { Id = EnumConsent.email_notifications, Enabled = true } });
+            inMemoryContext.AddEvents(userId, new Consent[1] { new Consent { Id = EnumConsent.email_notifications, Enabled = false } });
 
             UserService userService = new UserService(inMemoryContext);
             var user = userService.Get(email);
