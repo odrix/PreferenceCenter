@@ -1,7 +1,6 @@
-﻿using PreferenceCenterAPI.Models;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
-namespace PreferenceCenterAPI.Services
+namespace PreferenceCenterAPI.Domain
 {
     public class UserService : IUserService
     {

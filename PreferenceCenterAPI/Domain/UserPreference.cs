@@ -1,4 +1,4 @@
-﻿namespace PreferenceCenterAPI.Models
+﻿namespace PreferenceCenterAPI.Domain
 {
     public class UserPreference
     {

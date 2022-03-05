@@ -1,25 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using PreferenceCenterAPI.Controllers;
-using PreferenceCenterAPI.Models;
-using PreferenceCenterAPI.Services;
+using PreferenceCenterAPI.Domain;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PreferenceCenterTests
 {
     [TestFixture]
     internal class UsersControllerTests
     {
-        [Test]
         public void CreateUserAndGetByEmail()
         {
             string email = "pierre.tombal@joke.net";
-
-            UsersController userCtrl = new UsersController(new UserService());
+            UsersController userCtrl = InitUserController();
             userCtrl.Post(email);
 
             var response = userCtrl.Get(email);
@@ -33,10 +26,12 @@ namespace PreferenceCenterTests
             Assert.IsNotNull(user.Consents);
         }
 
+       
+
         [Test]
         public void GetUnexistingId_ShouldResponseNotFound()
         {
-            UsersController userCtrl = new UsersController(new UserService());
+            UsersController userCtrl = InitUserController();
 
             var response = userCtrl.Get(Guid.NewGuid());
 
@@ -48,7 +43,7 @@ namespace PreferenceCenterTests
         {
             string email = "pierre.tombal@joke.net";
 
-            UsersController usersCtrl = new UsersController(new UserService());
+            UsersController usersCtrl = InitUserController();
             usersCtrl.Post(email);
             var response = usersCtrl.Post(email);
 
@@ -60,7 +55,7 @@ namespace PreferenceCenterTests
         {
             string email = "pierre.tombal";
 
-            UsersController usersCtrl = new UsersController(new UserService());
+            UsersController usersCtrl = InitUserController();
             var response = usersCtrl.Post(email);
 
             Assert.IsInstanceOf<BadRequestObjectResult>(response);
@@ -71,7 +66,7 @@ namespace PreferenceCenterTests
         {
             string email = "pierre.tombal@joke.net";
 
-            UsersController userCtrl = new UsersController(new UserService());
+            UsersController userCtrl = InitUserController();
             userCtrl.Post(email);
 
             var response = userCtrl.Delete(email);
@@ -84,12 +79,17 @@ namespace PreferenceCenterTests
         {
             string email = "pierre.tombal@joke.net";
 
-            UsersController userCtrl = new UsersController(new UserService());
+            UsersController userCtrl = InitUserController();
             userCtrl.Post(email);
 
             var response = userCtrl.Delete(Guid.NewGuid());
 
             Assert.IsInstanceOf<NoContentResult>(response);
+        }
+
+        private static UsersController InitUserController()
+        {
+            return new UsersController(new UserService(new InMemoryContext()));
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PreferenceCenterAPI.Models;
-using PreferenceCenterAPI.Services;
+using PreferenceCenterAPI.Domain;
 using System.Net;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860

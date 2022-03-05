@@ -1,6 +1,5 @@
-﻿using PreferenceCenterAPI.Models;
-
-namespace PreferenceCenterAPI.Services
+﻿
+namespace PreferenceCenterAPI.Domain
 {
     public interface IUserService
     {

@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using PreferenceCenterAPI.Services;
+using PreferenceCenterAPI.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +16,7 @@ namespace PreferenceCenterTests
         {
             string email = "pierre.tombal@joke.net";
 
-            UserService userService = new UserService();
+            UserService userService = new UserService(new InMemoryContext());
             userService.Add(email);
 
             var  user = userService.Get(email);
@@ -32,7 +32,7 @@ namespace PreferenceCenterTests
         {
             string email = "pierre.tombal@joke.net";
 
-            UserService userService = new UserService();
+            UserService userService = new UserService(new InMemoryContext());
             var createdUser = userService.Add(email);
 
             var user = userService.Get(createdUser.Id);
@@ -48,7 +48,7 @@ namespace PreferenceCenterTests
         {
             string email = "pierre.tombal@joke.net";
 
-            UserService userService = new UserService();
+            UserService userService = new UserService(new InMemoryContext());
             userService.Add(email);
             Assert.Throws<ArgumentException>(() => userService.Add(email), "email already exist.");
         }
@@ -58,7 +58,7 @@ namespace PreferenceCenterTests
         {
             string email = "pierre.tombal";
 
-            UserService userService = new UserService();
+            UserService userService = new UserService(new InMemoryContext());
             Assert.Throws<FormatException>(() => userService.Add(email), "Email is wrong formated.");
         }
 
@@ -68,7 +68,7 @@ namespace PreferenceCenterTests
         {
             string email = "pierre.tombal@joke.net";
 
-            UserService userService = new UserService();
+            UserService userService = new UserService(new InMemoryContext());
             userService.Add(email);
 
             var isDeleted = userService.Delete(email);
@@ -82,7 +82,7 @@ namespace PreferenceCenterTests
             string email = "pierre.tombal@joke.net";
             string unexistEmail = "dark.vador@death.star";
 
-            UserService userService = new UserService();
+            UserService userService = new UserService(new InMemoryContext());
             userService.Add(email);
 
             var isDeleted = userService.Delete(unexistEmail);
