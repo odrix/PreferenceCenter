@@ -9,6 +9,7 @@ namespace PreferenceCenterTests
     [TestFixture]
     internal class UsersControllerTests
     {
+        [Test]
         public void CreateUserAndGetByEmail()
         {
             string email = "pierre.tombal@joke.net";
