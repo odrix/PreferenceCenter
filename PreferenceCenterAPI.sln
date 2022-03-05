@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PreferenceCenterAPI", "PreferenceCenterAPI\PreferenceCenterAPI.csproj", "{72A63006-2F0B-4FBC-9975-C5150DEECE94}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PreferenceCenterTests", "PreferenceCenterTests\PreferenceCenterTests.csproj", "{600F00C4-264A-492D-A22D-10B5A9C0589D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{72A63006-2F0B-4FBC-9975-C5150DEECE94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72A63006-2F0B-4FBC-9975-C5150DEECE94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72A63006-2F0B-4FBC-9975-C5150DEECE94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{600F00C4-264A-492D-A22D-10B5A9C0589D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{600F00C4-264A-492D-A22D-10B5A9C0589D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{600F00C4-264A-492D-A22D-10B5A9C0589D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{600F00C4-264A-492D-A22D-10B5A9C0589D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

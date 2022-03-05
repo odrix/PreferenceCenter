@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace PreferenceCenterAPI.Services
 {
-    internal class UserService : IUserService
+    public class UserService : IUserService
     {
         List<UserPreference> _users;
         public UserService()
@@ -21,23 +21,19 @@ namespace PreferenceCenterAPI.Services
             return _users.FirstOrDefault(x => x.Email == email);
         }
 
-        public UserPreference Add(UserPreference newUser)
+        public UserPreference Add(string email)
         {
-            if (newUser == null)
-                throw new ArgumentNullException(nameof(newUser));   
+            if(!IsEmailValid(email))
+                throw new FormatException("Email is wrong formated.");
 
-            if(!IsEmailValid(newUser.Email))
-                throw new ArgumentException("Email already exist.", nameof(newUser));
+            if (Get(email) != null)
+                throw new ArgumentException("email already exist.", nameof(email));
 
-
-            if (Get(newUser.Id) == null)
-                throw new ArgumentException("Id already exist.", nameof(newUser));
-
-            if (Get(newUser.Email) == null)
-                throw new ArgumentException("Email already exist.", nameof(newUser));
-
-            if (newUser.Id == Guid.Empty)
-                newUser.Id = Guid.NewGuid();
+            var newUser = new UserPreference()
+            {
+                Id = Guid.NewGuid(),
+                Email = email,
+            };
 
             _users.Add(newUser);
 
@@ -46,7 +42,7 @@ namespace PreferenceCenterAPI.Services
 
         private bool IsEmailValid(string email)
         {
-            var emailValidator = new Regex("");
+            var emailValidator = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
             return emailValidator.IsMatch(email);
         }
 

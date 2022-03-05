@@ -46,11 +46,11 @@ namespace PreferenceCenterAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(UserPreference userPreference)
+        public IActionResult Post([FromBody]string email)
         {
             try
             {
-                UserPreference createdUser = _userService.Add(userPreference);
+                UserPreference createdUser = _userService.Add(email);
                 return StatusCode((int)HttpStatusCode.Created, createdUser);
             }
             catch (Exception ex)
