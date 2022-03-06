@@ -103,6 +103,14 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Change consent",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
 		}
 	],
 	"event": [
